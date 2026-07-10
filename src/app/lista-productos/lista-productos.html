@@ -1,0 +1,79 @@
+<section class="productos">
+  <div class="encabezado">
+    <div>
+      <p class="etiqueta">API REST</p>
+      <h2>Productos disponibles</h2>
+      <p class="descripcion">
+        Información obtenida mediante httpResource.
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="boton-recargar"
+      (click)="productos.reload()">
+      Recargar
+    </button>
+  </div>
+
+  @if (productos.isLoading()) {
+  <div class="estado cargando">
+    <div class="spinner"></div>
+    <p>Cargando productos...</p>
+  </div>
+  } @else if (productos.error()) {
+  <div class="estado error">
+    <h3>No fue posible cargar los productos</h3>
+    <p>
+      Comprueba que la API y el servidor de Angular estén funcionando.
+    </p>
+
+    <button
+      type="button"
+      class="boton-reintentar"
+      (click)="productos.reload()">
+      Reintentar
+    </button>
+  </div>
+  } @else {
+  <div class="tabla-contenedor">
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Producto</th>
+        <th>Precio</th>
+        <th>Disponibilidad</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      @for (producto of productos.value() ?? []; track producto.id) {
+      <tr>
+        <td>{{ producto.id }}</td>
+        <td>{{ producto.nombre }}</td>
+        <td>{{ producto.precio | currency:'USD' }}</td>
+        <td>
+          @if (producto.disponible) {
+          <span class="estado-producto disponible">
+                    Disponible
+                  </span>
+          } @else {
+          <span class="estado-producto agotado">
+                    No disponible
+                  </span>
+          }
+        </td>
+      </tr>
+      } @empty {
+      <tr>
+        <td colspan="4" class="sin-productos">
+          No existen productos registrados.
+        </td>
+      </tr>
+      }
+      </tbody>
+    </table>
+  </div>
+  }
+</section>

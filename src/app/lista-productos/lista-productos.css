@@ -1,0 +1,159 @@
+.productos {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 32px;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.1);
+}
+
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.etiqueta {
+  margin: 0 0 6px;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+h2 {
+  margin: 0;
+  color: #172033;
+  font-size: 30px;
+}
+
+.descripcion {
+  margin: 8px 0 0;
+  color: #64748b;
+}
+
+.boton-recargar,
+.boton-reintentar {
+  border: none;
+  border-radius: 10px;
+  padding: 11px 18px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.boton-recargar:hover,
+.boton-reintentar:hover {
+  background: #1d4ed8;
+}
+
+.tabla-contenedor {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 16px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+}
+
+th {
+  background: #f8fafc;
+  color: #475569;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+td {
+  color: #334155;
+}
+
+tbody tr:hover {
+  background: #f8fafc;
+}
+
+.estado-producto {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.disponible {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.agotado {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.estado {
+  padding: 40px 20px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.cargando {
+  color: #475569;
+  background: #f8fafc;
+}
+
+.error {
+  color: #991b1b;
+  background: #fef2f2;
+}
+
+.error h3 {
+  margin-top: 0;
+}
+
+.spinner {
+  width: 38px;
+  height: 38px;
+  margin: 0 auto 16px;
+  border: 4px solid #dbeafe;
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: girar 0.8s linear infinite;
+}
+
+.sin-productos {
+  padding: 30px;
+  color: #64748b;
+  text-align: center;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 700px) {
+  .productos {
+    padding: 20px;
+  }
+
+  .encabezado {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+}
