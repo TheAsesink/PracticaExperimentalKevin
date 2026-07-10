@@ -1,10 +1,12 @@
 <section class="productos">
+
   <div class="encabezado">
     <div>
       <p class="etiqueta">API REST</p>
-      <h2>Productos disponibles</h2>
+      <h2>Gestión de productos</h2>
+
       <p class="descripcion">
-        Información obtenida mediante httpResource.
+        Creación, consulta y eliminación de productos mediante una API REST.
       </p>
     </div>
 
@@ -12,68 +14,193 @@
       type="button"
       class="boton-recargar"
       (click)="productos.reload()">
-      Recargar
+      Recargar lista
     </button>
   </div>
 
-  @if (productos.isLoading()) {
-  <div class="estado cargando">
-    <div class="spinner"></div>
-    <p>Cargando productos...</p>
-  </div>
-  } @else if (productos.error()) {
-  <div class="estado error">
-    <h3>No fue posible cargar los productos</h3>
-    <p>
-      Comprueba que la API y el servidor de Angular estén funcionando.
-    </p>
+  <div class="contenido">
 
-    <button
-      type="button"
-      class="boton-reintentar"
-      (click)="productos.reload()">
-      Reintentar
-    </button>
-  </div>
-  } @else {
-  <div class="tabla-contenedor">
-    <table>
-      <thead>
-      <tr>
-        <th>ID</th>
-        <th>Producto</th>
-        <th>Precio</th>
-        <th>Disponibilidad</th>
-      </tr>
-      </thead>
+    <section class="formulario-contenedor">
+      <h3>Registrar producto</h3>
 
-      <tbody>
-      @for (producto of productos.value() ?? []; track producto.id) {
-      <tr>
-        <td>{{ producto.id }}</td>
-        <td>{{ producto.nombre }}</td>
-        <td>{{ producto.precio | currency:'USD' }}</td>
-        <td>
-          @if (producto.disponible) {
-          <span class="estado-producto disponible">
-                    Disponible
-                  </span>
+      <p class="formulario-descripcion">
+        Complete los datos para enviar una petición POST.
+      </p>
+
+      <form
+        class="formulario"
+        (ngSubmit)="guardarProducto()">
+
+        <div class="campo">
+          <label for="nombre">
+            Nombre
+          </label>
+
+          <input
+            id="nombre"
+            name="nombre"
+            type="text"
+            placeholder="Ejemplo: Audífonos"
+            [(ngModel)]="nombre"
+            [disabled]="guardando()">
+        </div>
+
+        <div class="campo">
+          <label for="precio">
+            Precio
+          </label>
+
+          <input
+            id="precio"
+            name="precio"
+            type="number"
+            min="0.01"
+            step="0.01"
+            placeholder="0.00"
+            [(ngModel)]="precio"
+            [disabled]="guardando()">
+        </div>
+
+        <div class="campo-checkbox">
+          <input
+            id="disponible"
+            name="disponible"
+            type="checkbox"
+            [(ngModel)]="disponible"
+            [disabled]="guardando()">
+
+          <label for="disponible">
+            Producto disponible
+          </label>
+        </div>
+
+        @if (mensajeExito()) {
+        <div class="mensaje exito">
+          {{ mensajeExito() }}
+        </div>
+        }
+
+        @if (mensajeError()) {
+        <div class="mensaje error-formulario">
+          {{ mensajeError() }}
+        </div>
+        }
+
+        <button
+          type="submit"
+          class="boton-guardar"
+          [disabled]="guardando()">
+
+          @if (guardando()) {
+          Guardando...
           } @else {
-          <span class="estado-producto agotado">
-                    No disponible
-                  </span>
+          Crear producto
           }
-        </td>
-      </tr>
-      } @empty {
-      <tr>
-        <td colspan="4" class="sin-productos">
-          No existen productos registrados.
-        </td>
-      </tr>
+        </button>
+
+      </form>
+    </section>
+
+    <section class="lista-contenedor">
+      <h3>Productos registrados</h3>
+
+      @if (productos.isLoading()) {
+      <div class="estado cargando">
+        <div class="spinner"></div>
+
+        <p>
+          Cargando productos...
+        </p>
+      </div>
+
+      } @else if (productos.error()) {
+      <div class="estado error">
+        <h3>No fue posible cargar los productos</h3>
+
+        <p>
+          Comprueba que JSON Server y Angular estén funcionando.
+        </p>
+
+        <button
+          type="button"
+          class="boton-reintentar"
+          (click)="productos.reload()">
+          Reintentar
+        </button>
+      </div>
+
+      } @else {
+      <div class="tabla-contenedor">
+        <table>
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Disponibilidad</th>
+            <th>Acciones</th>
+          </tr>
+          </thead>
+
+          <tbody>
+          @for (
+          producto of productos.value() ?? [];
+          track producto.id
+          ) {
+          <tr>
+            <td>
+              {{ producto.id }}
+            </td>
+
+            <td>
+              {{ producto.nombre }}
+            </td>
+
+            <td>
+              {{ producto.precio | currency:'USD' }}
+            </td>
+
+            <td>
+              @if (producto.disponible) {
+              <span class="estado-producto disponible">
+                        Disponible
+                      </span>
+              } @else {
+              <span class="estado-producto agotado">
+                        No disponible
+                      </span>
+              }
+            </td>
+
+            <td>
+              <button
+                type="button"
+                class="boton-eliminar"
+                [disabled]="eliminandoId() === producto.id"
+                (click)="eliminarProducto(producto)">
+
+                @if (eliminandoId() === producto.id) {
+                Eliminando...
+                } @else {
+                Eliminar
+                }
+              </button>
+            </td>
+          </tr>
+          } @empty {
+          <tr>
+            <td
+              colspan="5"
+              class="sin-productos">
+              No existen productos registrados.
+            </td>
+          </tr>
+          }
+          </tbody>
+        </table>
+      </div>
       }
-      </tbody>
-    </table>
+    </section>
+
   </div>
-  }
 </section>

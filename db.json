@@ -1,0 +1,22 @@
+{
+  "productos": [
+    {
+      "id": 1,
+      "nombre": "Teclado mecánico",
+      "precio": 45.99,
+      "disponible": true
+    },
+    {
+      "id": 2,
+      "nombre": "Mouse inalámbrico",
+      "precio": 22.5,
+      "disponible": true
+    },
+    {
+      "id": 3,
+      "nombre": "Monitor LED",
+      "precio": 189.99,
+      "disponible": false
+    }
+  ]
+}
