@@ -29,7 +29,10 @@ export class ListaProductos {
   disponible = true;
 
   readonly guardando = signal(false);
-  readonly eliminandoId = signal<number | null>(null);
+
+  readonly eliminandoId =
+    signal<number | string | null>(null);
+
   readonly mensajeExito = signal('');
   readonly mensajeError = signal('');
 
@@ -40,12 +43,16 @@ export class ListaProductos {
     const nombreLimpio = this.nombre.trim();
 
     if (!nombreLimpio) {
-      this.mensajeError.set('El nombre del producto es obligatorio.');
+      this.mensajeError.set(
+        'El nombre del producto es obligatorio.'
+      );
       return;
     }
 
     if (this.precio === null || this.precio <= 0) {
-      this.mensajeError.set('El precio debe ser mayor que cero.');
+      this.mensajeError.set(
+        'El precio debe ser mayor que cero.'
+      );
       return;
     }
 
@@ -59,7 +66,10 @@ export class ListaProductos {
 
     this.productoService.crear(nuevoProducto).subscribe({
       next: () => {
-        this.mensajeExito.set('Producto creado correctamente.');
+        this.mensajeExito.set(
+          'Producto creado correctamente.'
+        );
+
         this.limpiarFormulario();
         this.productos.reload();
         this.guardando.set(false);
@@ -68,6 +78,7 @@ export class ListaProductos {
         this.mensajeError.set(
           'No se pudo crear el producto. Verifica que la API esté funcionando.'
         );
+
         this.guardando.set(false);
       }
     });
@@ -89,7 +100,10 @@ export class ListaProductos {
 
     this.productoService.eliminar(producto.id).subscribe({
       next: () => {
-        this.mensajeExito.set('Producto eliminado correctamente.');
+        this.mensajeExito.set(
+          'Producto eliminado correctamente.'
+        );
+
         this.productos.reload();
         this.eliminandoId.set(null);
       },
@@ -97,6 +111,7 @@ export class ListaProductos {
         this.mensajeError.set(
           'No se pudo eliminar el producto.'
         );
+
         this.eliminandoId.set(null);
       }
     });
@@ -108,4 +123,3 @@ export class ListaProductos {
     this.disponible = true;
   }
 }
-

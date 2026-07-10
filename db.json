@@ -1,22 +1,29 @@
 {
   "productos": [
     {
-      "id": 1,
+      "id": "1",
       "nombre": "Teclado mecánico",
       "precio": 45.99,
       "disponible": true
     },
     {
-      "id": 2,
+      "id": "2",
       "nombre": "Mouse inalámbrico",
       "precio": 22.5,
       "disponible": true
     },
     {
-      "id": 3,
+      "id": "3",
       "nombre": "Monitor LED",
       "precio": 189.99,
       "disponible": false
+    },
+    {
+      "nombre": "Audifonos",
+      "precio": 45,
+      "disponible": true,
+      "id": "vu4rGL0r-08"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

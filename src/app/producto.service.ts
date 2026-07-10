@@ -30,7 +30,7 @@ export class ProductoService {
       );
   }
 
-  obtener(id: number): Observable<Producto> {
+  obtener(id: number | string): Observable<Producto> {
     return this.http
       .get<Producto>(`${this.baseUrl}/${id}`)
       .pipe(
@@ -53,7 +53,7 @@ export class ProductoService {
   }
 
   actualizar(
-    id: number,
+    id: number | string,
     producto: Producto
   ): Observable<Producto> {
     return this.http
@@ -68,7 +68,7 @@ export class ProductoService {
       );
   }
 
-  eliminar(id: number): Observable<void> {
+  eliminar(id: number | string): Observable<void> {
     return this.http
       .delete<void>(`${this.baseUrl}/${id}`)
       .pipe(
